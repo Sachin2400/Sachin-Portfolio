@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sachin Choudhary — Full-Stack MERN Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --bg:#05060a;
+  --glass:rgba(255,255,255,0.045);
+  --glass-hi:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.09);
+  --text:#f3f5f9;
+  --text-dim:#9aa3b5;
+  --text-faint:#5c6478;
+  --violet:#8b7cff;
+  --cyan:#31d8e0;
+  --amber:#ffb85c;
+  --grad:linear-gradient(120deg, var(--violet), var(--cyan));
+  --font-display:'Sora', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --maxw:980px;
+  --radius:16px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{ color:inherit; text-decoration:none; }
+:focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; border-radius:4px; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; position:relative; z-index:1; }
+::selection{ background:rgba(139,124,255,0.35); }
+
+/* ===== AMBIENT BACKDROP ===== */
+.hero{
+  position:relative;
+  padding:110px 0 60px;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.mesh{
+  position:absolute; inset:-20% -10% auto -10%;
+  height:640px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(139,124,255,0.28), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(49,216,224,0.22), transparent 50%),
+    radial-gradient(circle at 55% 70%, rgba(255,184,92,0.10), transparent 55%);
+  filter:blur(40px);
+  pointer-events:none;
+  z-index:0;
+}
+@media (prefers-reduced-motion:no-preference){
+  .mesh{ animation:meshshift 16s ease-in-out infinite alternate; }
+}
+@keyframes meshshift{
+  0%{ transform:translate(0,0) scale(1); }
+  100%{ transform:translate(2%,3%) scale(1.06); }
+}
+
+/* HERO LAYOUT WITH PHOTO ON TOP RIGHT */
+.hero-layout{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:40px;
+  width:100%;
+}
+.hero-content{
+  flex:1;
+}
+
+/* PORTRAIT STYLING (TOP RIGHT) */
+.hero-portrait-wrapper{
+  position:relative;
+  flex-shrink:0;
+  margin-top:10px;
+}
+.hero-portrait-wrapper::before{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  background:var(--grad);
+  z-index:0;
+  opacity:0.8;
+  filter:blur(8px);
+  transition:opacity .3s ease;
+}
+.hero-portrait-wrapper:hover::before{
+  opacity:1;
+  filter:blur(12px);
+}
+.hero-portrait{
+  position:relative;
+  z-index:1;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center top;
+  border:2px solid rgba(255,255,255,0.2);
+  background:var(--bg);
+  box-shadow:0 12px 32px rgba(0,0,0,0.5);
+  transition:transform .3s ease;
+}
+.hero-portrait-wrapper:hover .hero-portrait{
+  transform:scale(1.03);
+}
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  background:var(--glass);
+  border:1px solid var(--border);
+  padding:7px 14px;
+  border-radius:30px;
+  margin-bottom:28px;
+}
+.eyebrow::before{
+  content:''; width:7px; height:7px; border-radius:50%;
+  background:var(--cyan); box-shadow:0 0 10px var(--cyan);
+}
+
+.terminal{
+  font-family:var(--font-mono);
+  font-size:clamp(15px,2vw,18px);
+  color:var(--text-dim);
+  min-height:1.4em;
+  margin-bottom:22px;
+}
+.terminal .prompt{ color:var(--violet); }
+.terminal .cursor{
+  display:inline-block; width:9px; height:1.1em; background:var(--cyan);
+  margin-left:2px; vertical-align:middle;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{ 50%{ opacity:0; } }
+
+.hero h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:clamp(38px,6vw,62px);
+  letter-spacing:-0.02em;
+  line-height:1.02;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero .role{
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:clamp(16px,2vw,20px);
+  color:var(--text-dim);
+  margin-top:20px;
+  max-width:640px;
+}
+
+.hero-links{ display:flex; flex-wrap:wrap; gap:14px; margin-top:38px; }
+.hero-links a{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-mono); font-size:13px;
+  padding:11px 18px; border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--glass);
+  backdrop-filter:blur(10px);
+  transition:transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.hero-links a:hover{ transform:translateY(-3px); border-color:var(--violet); background:var(--glass-hi); }
+.hero-links a.primary{ background:var(--grad); color:#05060a; font-weight:700; border-color:transparent; }
+.hero-links a.primary:hover{ filter:brightness(1.08); }
+.hero-links i{ color:var(--cyan); }
+.hero-links a.primary i{ color:#05060a; }
+
+/* Status Strip */
+.status-strip{
+  margin-top:56px; padding-top:22px; border-top:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:10px 26px;
+  font-family:var(--font-mono); font-size:11.5px; color:var(--text-faint);
+}
+.status-strip b{ color:var(--text-dim); font-weight:600; }
+
+/* ===== SECTIONS ===== */
+section{ padding:64px 0; border-bottom:1px solid var(--border); }
+.tag-label{
+  font-family:var(--font-mono); font-size:12px; color:var(--violet);
+  letter-spacing:0.12em; text-transform:uppercase; margin-bottom:10px; display:block;
+}
+.section-head{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(24px,3.4vw,32px); margin-bottom:28px; letter-spacing:-0.01em;
+}
+.lede{ font-size:16px; color:var(--text-dim); max-width:720px; }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; } }
+
+/* Glass Card Base */
+.glass{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  backdrop-filter:blur(14px);
+}
+
+/* EXPERIENCE */
+.job{ padding:26px 28px; margin-bottom:18px; }
+.job-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:6px; }
+.job-title{ font-family:var(--font-display); font-size:18.5px; font-weight:700; }
+.job-title span{ color:var(--text-dim); font-weight:400; }
+.job-date{ font-family:var(--font-mono); font-size:12px; color:var(--text-faint); white-space:nowrap; }
+.chip-row{ display:flex; gap:8px; margin:12px 0 14px; flex-wrap:wrap; }
+.chip{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color:var(--cyan); background:rgba(49,216,224,0.08); border:1px solid rgba(49,216,224,0.25); padding:4px 10px; border-radius:6px; }
+.job ul{ list-style:none; }
+.job li{ position:relative; padding-left:22px; margin-bottom:9px; font-size:14.5px; color:#c6cedb; }
+.job li::before{ content:'▹'; position:absolute; left:0; color:var(--violet); }
+
+/* PROJECTS */
+.project-flag{ padding:30px; position:relative; margin-bottom:22px; overflow:hidden; }
+.project-flag::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:var(--grad);
+}
+.project-flag h3{ font-family:var(--font-display); font-size:22px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.flagpill{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; background:var(--grad); color:#05060a; padding:3px 9px; border-radius:5px; font-weight:700; }
+.project-flag a.gh{ margin-left:auto; color:var(--text-faint); font-size:18px; transition:color .2s; }
+.project-flag a.gh:hover{ color:var(--cyan); }
+.stack-line{ font-family:var(--font-mono); font-size:12px; color:var(--cyan); margin:8px 0 14px; display:block; }
+.project-flag ul{ list-style:none; }
+.project-flag li{ position:relative; padding-left:22px; margin-bottom:9px; font-size:14.5px; color:#c6cedb; }
+.project-flag li::before{ content:'▹'; position:absolute; left:0; color:var(--violet); }
+
+.grid-projects{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.pcard{ padding:22px; transition:transform .25s ease, border-color .25s ease, opacity .25s ease, filter .25s ease; }
+.pcard.hidden-by-filter, .project-flag.hidden-by-filter{ opacity:0.25; transform:scale(0.98); filter:grayscale(0.6); }
+.pcard:hover{ transform:translateY(-4px); border-color:var(--violet); }
+.pcard h4{ font-family:var(--font-display); font-size:16.5px; font-weight:700; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.pcard h4 a{ color:var(--text-faint); font-size:15px; transition:color .2s; }
+.pcard h4 a:hover{ color:var(--cyan); }
+.pcard ul{ list-style:none; margin-top:10px; }
+.pcard li{ position:relative; padding-left:18px; font-size:13.5px; color:#aebccb; margin-bottom:6px; }
+.pcard li::before{ content:'—'; position:absolute; left:0; color:var(--text-faint); }
+
+/* SKILLS */
+.filter-hint{ font-family:var(--font-mono); font-size:12px; color:var(--text-faint); margin-bottom:18px; }
+.skill-groups{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px 36px; margin-bottom:10px; }
+.skill-group h5{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); margin-bottom:12px; }
+.pill-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.pill{
+  font-family:var(--font-mono); font-size:12.5px; color:var(--text);
+  background:var(--glass); border:1px solid var(--border);
+  padding:7px 13px; border-radius:20px; cursor:pointer;
+  transition:all .2s ease; user-select:none;
+}
+.pill:hover{ border-color:var(--cyan); }
+.pill.active{ background:var(--grad); color:#05060a; border-color:transparent; font-weight:700; }
+
+/* EDUCATION */
+.edu-row{ display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; padding:18px 26px; }
+.edu-title{ font-family:var(--font-display); font-size:16px; font-weight:700; }
+.edu-sub{ font-size:13.5px; color:var(--text-dim); margin-top:3px; }
+.edu-date{ font-family:var(--font-mono); font-size:12px; color:var(--text-faint); white-space:nowrap; }
+
+/* FOOTER */
+footer{ padding:80px 0 56px; text-align:center; }
+footer h2{ font-family:var(--font-display); font-weight:800; font-size:clamp(26px,4.4vw,38px); margin-bottom:16px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+footer p{ color:var(--text-dim); max-width:480px; margin:0 auto 30px; }
+.footer-links{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+.foot-note{ margin-top:50px; font-family:var(--font-mono); font-size:11px; color:var(--text-faint); }
+
+@media (max-width:720px){
+  .hero{ padding-top:50px; }
+  .hero-layout{ flex-direction:column; align-items:flex-start; gap:24px; }
+  .hero-portrait{ width:120px; height:120px; }
+  .grid-projects{ grid-template-columns:1fr; }
+  .skill-groups{ grid-template-columns:1fr; }
+  .job-head{ flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="mesh"></div>
+  <div class="wrap">
+    <div class="hero-layout">
+      <!-- MAIN TEXT CONTENT ON LEFT -->
+      <div class="hero-content">
+        <div class="eyebrow">Available for Full-Stack MERN &amp; Software Engineer roles</div>
+        <div class="terminal"><span class="prompt">sachin@dev ~ %</span> <span id="typed"></span><span class="cursor"></span></div>
+        <h1>Sachin Choudhary</h1>
+        <p class="role">Full-Stack MERN Software Engineer specializing in building end-to-end web applications with MongoDB, Express.js, React.js, and Node.js.</p>
+
+        <div class="hero-links">
+          <a href="mailto:sachin24250@gmail.com" class="primary"><i class="fa-solid fa-envelope"></i> Email me</a>
+          <a href="https://linkedin.com/in/sachin-choudhary-391509410" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+          <a href="https://github.com/Sachin2400" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="tel:+919667309708"><i class="fa-solid fa-phone"></i> +91 96673 09708</a>
+        </div>
+      </div>
+
+      <!-- PORTRAIT IMAGE EXPLICITLY ON TOP RIGHT -->
+      <div class="hero-portrait-wrapper">
+        <img src="assets/photo.png" alt="Sachin Choudhary" class="hero-portrait" />
+      </div>
+    </div>
+
+    <div class="status-strip">
+      <span><b>Experience</b> · 2+ yrs</span>
+      <span><b>Stack</b> · MERN Stack · JavaScript · TypeScript · REST APIs</span>
+      <span><b>Based in</b> · Bokaro Steel City, India</span>
+      <span><b>Open to</b> · Relocation &amp; remote</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- SUMMARY -->
+  <section class="reveal">
+    <span class="tag-label">// Summary</span>
+    <h2 class="section-head">End-to-End MERN Stack Engineering</h2>
+    <p class="lede">I build scalable, modern web applications from frontend user interfaces down to secure backend microservices. With a strong background in RESTful API design, database schema modeling in MongoDB and SQL, dynamic state management in React/Redux, and robust authentication systems, I focus on delivering clean, maintainable, and high-assurance code built for production environments.</p>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="reveal">
+    <span class="tag-label">// Experience</span>
+    <h2 class="section-head">Where I've worked</h2>
+
+    <div class="job glass">
+      <div class="job-head">
+        <div class="job-title">Masters India <span>— Application Solutions Analyst</span></div>
+        <div class="job-date">Feb 2023 – Dec 2024 · Noida, India</div>
+      </div>
+      <div class="chip-row"><span class="chip">Full-Stack</span><span class="chip">APIs &amp; Integrations</span><span class="chip">SAP HANA</span></div>
+      <ul>
+        <li>Maintained and extended ERP backend workflows, RESTful integrations, and automated pipelines serving client-facing platforms.</li>
+        <li>Diagnosed high-impact data integration failures end-to-end, fixing root backend bugs and optimizing query bottlenecks.</li>
+        <li>Led technical discovery sessions with enterprise clients, translating complex domain needs into precise JSON/REST API contracts.</li>
+        <li>Owned support operations for platform-critical API queues under tight SLA constraints and authored team runbooks.</li>
+      </ul>
+    </div>
+
+    <div class="job glass">
+      <div class="job-head">
+        <div class="job-title">Infosys <span>— System Engineer Trainee</span></div>
+        <div class="job-date">Dec 2024 – Jun 2025 · Mysuru, India</div>
+      </div>
+      <div class="chip-row"><span class="chip">Backend</span><span class="chip">Java &amp; Web</span><span class="chip">Agile</span></div>
+      <ul>
+        <li>Engineered backend API endpoints and web microservices within a shared production codebase under strict Agile sprints.</li>
+        <li>Wrote automated unit test suites and traced cross-service runtime failures to ensure zero-regression deployments.</li>
+        <li>Documented API integration flows and deployment processes for cross-team knowledge sharing.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="reveal">
+    <span class="tag-label">// Projects</span>
+    <h2 class="section-head">Featured Web Applications</h2>
+
+    <!-- Flagship 1: E-Commerce -->
+    <div class="project-flag glass" data-domain="mern react node mongodb express">
+      <h3>MERN E-Commerce Platform <span class="flagpill">Flagship</span>
+        <a href="https://github.com/Sachin2400/mern-ecommerce-platform" target="_blank" class="gh" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+      </h3>
+      <span class="stack-line">Node.js · Express.js · React.js · MongoDB · JWT Auth · Redux / Context API</span>
+      <ul>
+        <li>Built a complete full-stack e-commerce ecosystem featuring secure JWT user authentication, password hashing, and role-based access control (Admin/Customer).</li>
+        <li>Architected structured MongoDB schema models handling dynamic product listings, multi-item shopping cart states, user reviews, and order processing workflows.</li>
+        <li>Designed a responsive React user interface equipped with dynamic search, category filtering, cart management, and an enterprise admin management dashboard.</li>
+      </ul>
+    </div>
+
+    <!-- Flagship 2: Booking App -->
+    <div class="project-flag glass" data-domain="mern react node mongodb express">
+      <h3>MERN Hotel &amp; Resource Booking Platform <span class="flagpill">Flagship</span>
+        <a href="https://github.com/Sachin2400/MERN-Booking-App-main" target="_blank" class="gh" title="View on GitHub"><i class="fa-brands fa-github"></i></a>
+      </h3>
+      <span class="stack-line">Node.js · Express.js · React.js · MongoDB · HTTP-Only Cookies · REST API</span>
+      <ul>
+        <li>Engineered a real-time reservation and property availability engine capable of managing complex room-property relationships and date-range overlap queries.</li>
+        <li>Implemented secure authentication using HTTP-only cookie JWT tokens alongside protected API routes for guest booking management.</li>
+        <li>Crafted an intuitive frontend experience with interactive calendar date pickers, instant price aggregation, and booking confirmations.</li>
+      </ul>
+    </div>
+
+    <!-- Grid Projects -->
+    <div class="grid-projects">
+      <div class="pcard glass" data-domain="react javascript frontend">
+        <h4>YouTube Clone <a href="https://github.com/Sachin2400/youtube-clone" target="_blank" title="View on GitHub"><i class="fa-brands fa-github"></i></a></h4>
+        <span class="stack-line" style="margin-bottom:0;">React.js · JavaScript · REST APIs · RapidAPI</span>
+        <ul>
+          <li>Integrated asynchronous third-party media APIs for dynamic video feed rendering, channel stats, and comment streams.</li>
+          <li>Optimized React component state logic for fast video playback, search indexing, category filtering, and sidebar navigation.</li>
+        </ul>
+      </div>
+
+      <div class="pcard glass" data-domain="python ml fullstack react">
+        <h4>Predictive Health Application <a href="https://github.com/Sachin2400/Disease-Predictor-Application" target="_blank" title="View on GitHub"><i class="fa-brands fa-github"></i></a></h4>
+        <span class="stack-line" style="margin-bottom:0;">Python · Scikit-Learn · Flask · React / HTML5</span>
+        <ul>
+          <li>Connected backend Python classification models to an interactive web frontend for real-time symptom analysis and medical risk scoring.</li>
+          <li>Handled full-stack payload parsing, model prediction pipeline calls, and structured JSON response rendering.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS / TOOLBOX -->
+  <section class="reveal">
+    <span class="tag-label">// Skills</span>
+    <h2 class="section-head">Technical Toolbox</h2>
+    <p class="filter-hint">Click a skill pill below to highlight the projects that use it.</p>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h5>Frontend</h5>
+        <div class="pill-row">
+          <span class="pill" data-filter="react">React.js</span>
+          <span class="pill" data-filter="react">Redux</span>
+          <span class="pill" data-filter="javascript">JavaScript (ES6+)</span>
+          <span class="pill" data-filter="javascript">TypeScript</span>
+          <span class="pill" data-filter="frontend">HTML5 / CSS3</span>
+          <span class="pill" data-filter="frontend">Tailwind CSS</span>
+          <span class="pill" data-filter="frontend">Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h5>Backend &amp; APIs</h5>
+        <div class="pill-row">
+          <span class="pill" data-filter="node">Node.js</span>
+          <span class="pill" data-filter="express">Express.js</span>
+          <span class="pill" data-filter="mern">MERN Stack</span>
+          <span class="pill" data-filter="express">RESTful APIs</span>
+          <span class="pill" data-filter="express">JWT Auth</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h5>Databases</h5>
+        <div class="pill-row">
+          <span class="pill" data-filter="mongodb">MongoDB</span>
+          <span class="pill" data-filter="mongodb">Mongoose</span>
+          <span class="pill" data-filter="express">PostgreSQL</span>
+          <span class="pill" data-filter="express">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h5>Tools &amp; Practices</h5>
+        <div class="pill-row">
+          <span class="pill" data-filter="javascript">Git &amp; GitHub</span>
+          <span class="pill" data-filter="express">Postman</span>
+          <span class="pill" data-filter="express">Docker</span>
+          <span class="pill" data-filter="express">Agile / Scrum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION & CERTIFICATIONS -->
+  <section class="reveal">
+    <span class="tag-label">// Education &amp; Training</span>
+    <h2 class="section-head">Background</h2>
+    <div class="glass" style="padding:6px 0;">
+      <div class="edu-row">
+        <div>
+          <div class="edu-title">Full-Stack MERN Web Development</div>
+          <div class="edu-sub">MongoDB, Express.js, React.js, Node.js, REST APIs, State Management</div>
+        </div>
+      </div>
+      <div class="edu-row" style="border-top:1px solid var(--border);">
+        <div>
+          <div class="edu-title">Infosys Foundation Training Program</div>
+          <div class="edu-sub">Intensive Software Engineering: Java OOP, Data Structures &amp; Algorithms, Relational Databases</div>
+        </div>
+      </div>
+      <div class="edu-row" style="border-top:1px solid var(--border);">
+        <div>
+          <div class="edu-title">B.Tech, Mechanical Engineering</div>
+          <div class="edu-sub">Galgotias College of Engineering &amp; Technology</div>
+        </div>
+        <div class="edu-date">2018 – 2022</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <h2>Let's build something together.</h2>
+  <p>Open to Full-Stack MERN, Frontend, and Backend Software Engineer roles. I reply to emails fastest.</p>
+  <div class="footer-links">
+    <a href="mailto:sachin24250@gmail.com" class="pill" style="border-radius:10px; padding:11px 18px;"><i class="fa-solid fa-envelope"></i> Email</a>
+    <a href="https://linkedin.com/in/sachin-choudhary-391509410" target="_blank" class="pill" style="border-radius:10px; padding:11px 18px;"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+    <a href="https://github.com/Sachin2400" target="_blank" class="pill" style="border-radius:10px; padding:11px 18px;"><i class="fa-brands fa-github"></i> GitHub</a>
+  </div>
+  <div class="foot-note">Designed &amp; Built by Sachin Chaudhary (🇮🇳).</div>
+</footer>
+
+<script>
+  // Typing effect in Terminal
+  const lines = [
+    "→ full-stack engineer, mern stack",
+    "→ building scalable web apps"
+  ];
+  const typedEl = document.getElementById('typed');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion) {
+    typedEl.textContent = lines[lines.length - 1];
+  } else {
+    let lineIdx = 0, charIdx = 0, deleting = false;
+    function tick(){
+      const current = lines[lineIdx];
+      if (!deleting){
+        charIdx++;
+        typedEl.textContent = current.slice(0, charIdx);
+        if (charIdx === current.length){
+          if (lineIdx === lines.length - 1) return; // Stop at last line
+          deleting = true;
+          setTimeout(tick, 1200);
+          return;
+        }
+      } else {
+        charIdx--;
+        typedEl.textContent = current.slice(0, charIdx);
+        if (charIdx === 0){
+          deleting = false;
+          lineIdx++;
+        }
+      }
+      setTimeout(tick, deleting ? 20 : 45);
+    }
+    tick();
+  }
+
+  // Scroll reveal observer
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ 
+        if(e.isIntersecting){ 
+          e.target.classList.add('in'); 
+          io.unobserve(e.target);
+        } 
+      });
+    }, { threshold:0.1 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
+  }
+
+  // Interactive skill filter logic
+  const pills = document.querySelectorAll('.pill[data-filter]');
+  const filterables = document.querySelectorAll('[data-domain]');
+  let activeFilters = new Set();
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filterKey = pill.dataset.filter.toLowerCase();
+      if (activeFilters.has(filterKey)) {
+        activeFilters.delete(filterKey);
+        pill.classList.remove('active');
+      } else {
+        activeFilters.add(filterKey);
+        pill.classList.add('active');
+      }
+      applyFilters();
+    });
+  });
+
+  function applyFilters(){
+    if (activeFilters.size === 0){
+      filterables.forEach(el => el.classList.remove('hidden-by-filter'));
+      return;
+    }
+    filterables.forEach(el => {
+      const domains = el.dataset.domain.toLowerCase().split(' ');
+      const isMatch = Array.from(activeFilters).some(f => domains.includes(f));
+      el.classList.toggle('hidden-by-filter', !isMatch);
+    });
+  }
+</script>
+
+</body>
+</html>
